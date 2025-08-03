@@ -1,0 +1,294 @@
+/* File: assets/css/main.css (UPDATED for consistency) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    /* Use 'font-sans' which is mapped to 'Outfit' in tailwind.config.ts */
+    @apply font-sans transition-colors duration-700 ease-in-out;
+    transform-style: preserve-3d;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    /* Ensure a transition for the HTML background if it changes for dark mode */
+    transition: background-color 0.7s ease-in-out; 
+  }
+}
+
+/* Notebook Grid Background (for index.vue) */
+.bg-notebook {
+  background-color: #F7F5F2; /* Light mode background */
+  background-image: 
+    linear-gradient(#D1D5DB 1px, transparent 1px),
+    linear-gradient(to right, #D1D5DB 1px, #F7F5F2 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  transition: background-color 0.7s ease-in-out; /* Smooth transition for background color */
+}
+
+/* Optional: Dark mode variant for notebook background if ever needed on index.vue */
+.dark .bg-notebook {
+  background-color: #1a1a1a; /* Darker background for dark mode */
+  background-image: 
+    linear-gradient(rgba(100, 100, 100, 0.4) 1px, transparent 1px),
+    linear-gradient(to right, rgba(100, 100, 100, 0.4) 1px, #1a1a1a 1px);
+}
+
+
+/* Animated Notebook Grid (for plane, if used) */
+.bg-notebook-animated {
+  background-color: #F7F5F2; /* Light mode background */
+  background-image: 
+    linear-gradient(#D1D5DB 1px, transparent 1px),
+    linear-gradient(to right, #D1D5DB 1px, #F7F5F2 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  background-position: center center;
+  will-change: transform;
+  transition: background-color 0.7s ease-in-out; /* Smooth transition */
+}
+
+.dark .bg-notebook-animated {
+  background-color: #1a1a1a;
+  background-image: 
+    linear-gradient(rgba(100, 100, 100, 0.4) 1px, transparent 1px),
+    linear-gradient(to right, rgba(100, 100, 100, 0.4) 1px, #1a1a1a 1px);
+}
+
+/* Purple Gradient Background (used in index.vue transition) */
+/* This will typically be applied directly to <html> or <body> via JS for transitions */
+.bg-purple-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+}
+
+/* Dark Theme Background (for a specific element or global fallback) */
+/* If this is meant for the main dashboard, the dashboard.vue classes will override it */
+.bg-doodle-dark {
+  background-color: #000000;
+  background-image: url('/background-doodles.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-color 0.7s ease-in-out;
+}
+
+/* Global Animations (used sparingly, component-specific animations preferred) */
+
+/* Standard fadeIn (if used elsewhere, dashboard.vue uses its own) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Standard slideUp (if used elsewhere, dashboard.vue uses its own) */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+/* --- ENHANCED WOBBLE ANIMATION (Global definition) --- */
+/* This specific wobble keyframe from your input is used for the "Nobody Cares" button */
+@keyframes wobble {
+  0%, 100% { transform: rotate(2deg); }
+  25% { transform: rotate(-1deg) scale(1.02); }
+  50% { transform: rotate(3deg); }
+  75% { transform: rotate(-2deg) scale(0.98); }
+}
+
+.animate-wobble {
+  animation: wobble 2s ease-in-out infinite;
+}
+
+/* Paper Plane Specific Styles */
+.paper-plane {
+  transform-origin: center;
+  transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.plane-shadow {
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+}
+
+/* Paper Plane Flight Path Animation */
+@keyframes planeTakeoff {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -60%) scale(1) rotate(-10deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-30%, -80%) scale(0.8) rotate(-30deg);
+  }
+  80% {
+    transform: translate(80vw, -120px) scale(0.3) rotate(-60deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(100vw, -150px) scale(0.1) rotate(-90deg);
+    opacity: 0;
+  }
+}
+
+/* Mobile-specific flight path for planeTakeoff */
+@media (max-width: 768px) {
+  @keyframes planeTakeoff {
+    0% {
+      transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+    20% {
+      transform: translate(-50%, -60%) scale(1) rotate(-10deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-30%, -80%) scale(0.8) rotate(-30deg);
+    }
+    80% {
+      transform: translate(70vw, -100px) scale(0.3) rotate(-60deg);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(100vw, -120px) scale(0.1) rotate(-90deg);
+      opacity: 0;
+    }
+  }
+}
+
+/* Mobile Optimizations for notebook backgrounds */
+@media (max-width: 768px) {
+  .bg-notebook,
+  .bg-notebook-animated {
+    background-size: 15px 15px;
+  }
+  
+  .bg-purple-gradient {
+    background-attachment: scroll; /* Allow scrolling on mobile for fixed backgrounds */
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .bg-notebook,
+  .bg-notebook-animated {
+    background-image: 
+      linear-gradient(#000000 1px, transparent 1px),
+      linear-gradient(to right, #000000 1px, #FFFFFF 1px);
+    background-color: #FFFFFF; /* High contrast white base */
+  }
+  
+  .dark .bg-notebook,
+  .dark .bg-notebook-animated {
+    background-image: 
+      linear-gradient(#FFFFFF 1px, transparent 1px),
+      linear-gradient(to right, #FFFFFF 1px, #000000 1px);
+    background-color: #000000; /* High contrast black base for dark mode */
+  }
+
+  .bg-purple-gradient {
+    background: linear-gradient(135deg, #4c1d95 0%, #581c87 100%);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  /* Apply `animation: none;` to all animated classes defined here or in component scopes */
+  .animate-wobble,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-float, /* from index.vue scoped styles, but good to include here for robustness */
+  .rocket-bounce, /* from index.vue scoped styles */
+  .animate-pulse-light, /* from dashboard.vue scoped styles */
+  .animate-pulse-dark, /* from dashboard.vue scoped styles */
+  .animate-float-text, /* from dashboard.vue scoped styles */
+  .animate-fade-in-up, /* from dashboard.vue scoped styles */
+  .animate-fade-in-delay-1, /* from dashboard.vue scoped styles */
+  .animate-fade-in-delay-2, /* from dashboard.vue scoped styles */
+  .animate-fade-in-delay-3, /* from dashboard.vue scoped styles */
+  .animate-fade-in-delay-4, /* from dashboard.vue scoped styles */
+  .floating-orb, /* from dashboard.vue scoped styles */
+  .empty-icon svg, /* from dashboard.vue scoped styles */
+  .stat-card:hover .stat-icon, /* from dashboard.vue scoped styles */
+  .action-card:hover .action-icon, /* from dashboard.vue scoped styles */
+  .logo-shape, /* from index.vue scoped styles */
+  .loading-circles, /* from index.vue scoped styles */
+  .loading-dots span, /* from index.vue scoped styles */
+  .modern-loading-container.animate-loading .progress-bar, /* from index.vue scoped styles */
+  .modern-loading-container.animate-loading .loading-circles, /* from index.vue scoped styles */
+  .modern-loading-container .loading-message, /* from index.vue scoped styles */
+  
+  /* Generic transitions that should also be removed */
+  .paper-plane,
+  .stat-card,
+  .stat-card::before,
+  .stat-icon,
+  .action-card,
+  .action-card::before,
+  .action-icon,
+  .action-arrow,
+  .info-panel,
+  .btn {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Utility Classes */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Button Glow Effect (from index.vue, kept global as it's general) */
+.button-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.8s;
+}
+
+.button-glow:hover::before {
+  left: 100%;
+}

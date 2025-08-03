@@ -1,0 +1,25 @@
+<!-- File: public/paper-plane-pattern.svg -->
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define the pattern for the notebook paper -->
+  <defs>
+    <pattern id="notebookGrid" patternUnits="userSpaceOnUse" width="20" height="20">
+      <line x1="0" y1="0" x2="20" y2="0" stroke="#D1D5DB" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#D1D5DB" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Paper plane path, filled with the notebook grid pattern -->
+  <path
+    d="M 50 100 L 150 50 L 150 150 L 50 100 M 150 50 L 100 100 L 150 150 M 100 100 L 50 100"
+    fill="url(#notebookGrid)"
+    stroke="#D1D5DB"
+    stroke-width="1"
+  />
+  <!-- A darker line to outline the plane slightly better if needed, optional -->
+  <path
+    d="M 50 100 L 150 50 L 150 150 L 50 100 Z"
+    stroke="#9CA3AF"
+    stroke-width="0.5"
+    fill="none"
+  />
+</svg>
