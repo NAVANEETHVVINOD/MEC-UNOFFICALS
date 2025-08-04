@@ -1,104 +1,102 @@
 <!-- components/Navbar.vue -->
-<!-- This navbar is styled to match the video and includes your requested links. -->
 <template>
-  <nav 
-    class="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
-    :class="navbarClasses"
-  >
-    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+  <nav class="sticky top-0 z-50 bg-white/50 backdrop-blur-lg border-b border-black/10">
+    <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-20">
-        
-        <!-- Logo Section -->
-        <NuxtLink to="/dashboard" class="flex items-center space-x-3">
-          <!-- SVG Logo to replicate the one in the video -->
-          <svg class="w-9 h-9 text-black" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 2V6M12 18V22M6 12H2M22 12H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M15.5355 8.46448L12.7071 11.2929M8.46448 15.5355L11.2929 12.7071" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Logo -->
+        <NuxtLink to="/dashboard" class="flex items-center gap-3 group">
+          <!-- NEW: SVG Logo Icon -->
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="text-gray-900 group-hover:text-purple-accent transition-colors duration-300"
+          >
+            <circle cx="12" cy="12" r="3" fill="currentColor" />
+            <path
+              d="M19.95 19.95A11 11 0 0 1 4.05 4.05"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+             <path
+              d="M4.05 19.95A11 11 0 0 0 19.95 4.05"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
-          <span class="font-display text-xl uppercase tracking-widest font-bold">Voyager</span>
+          <!-- UPDATED: Logo Text -->
+          <span class="text-xl font-pixel text-gray-900 group-hover:text-purple-accent transition-colors duration-300">
+            MEC-UNOFFICALS
+          </span>
         </NuxtLink>
 
-        <!-- Desktop Navigation Links -->
+        <!-- Desktop Nav Links -->
         <div class="hidden md:flex items-center space-x-8">
-          <NuxtLink to="/events" class="nav-link">Events</NuxtLink>
-          <NuxtLink to="/clubs" class="nav-link">Clubs</NuxtLink>
-          <NuxtLink to="/notes" class="nav-link">Notes</NuxtLink>
-          <NuxtLink to="/jobs" class="nav-link">Jobs</NuxtLink>
-          <NuxtLink to="/leaderboard" class="nav-link">Leaderboard</NuxtLink>
+          <NuxtLink v-for="item in navItems" :key="item.name" :to="item.path" class="nav-link">
+            {{ item.name }}
+          </NuxtLink>
         </div>
 
-        <!-- User Dropdown -->
-        <div class="hidden md:flex items-center">
-           <CoreUserDropdown />
+        <!-- Right Side: User Dropdown or Login -->
+        <div class="hidden md:block">
+          <div class="w-10 h-10 bg-purple-accent rounded-full flex items-center justify-center font-bold text-white">
+            N
+          </div>
         </div>
 
-        <!-- Mobile Menu Button (Future enhancement) -->
+        <!-- Mobile Menu Button -->
         <div class="md:hidden">
-          <!-- A button can be added here to toggle a mobile menu -->
+          <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-4 6h4"></path></svg>
+          </button>
         </div>
-
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div v-if="isMobileMenuOpen" class="md:hidden bg-white/80 backdrop-blur-xl">
+      <div class="flex flex-col items-center py-4 space-y-4">
+        <NuxtLink v-for="item in navItems" :key="item.name" :to="item.path" @click="isMobileMenuOpen = false" class="nav-link">
+          {{ item.name }}
+        </NuxtLink>
       </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useAppConfig } from '#app';
+import { ref } from 'vue';
 
-// Use the global app config to check for navbar transparency state
-const appConfig = useAppConfig();
+const isMobileMenuOpen = ref(false);
 
-// Dynamically compute the navbar's classes based on the transparency state
-const navbarClasses = computed(() => {
-  if (appConfig.navbar.isTransparent) {
-    // Classes for the transparent state (on top of the dashboard hero)
-    return 'bg-transparent text-black';
-  }
-  // Default classes for all other pages
-  return 'bg-white/80 backdrop-blur-md border-b border-gray-200 text-black';
-});
+const navItems = [
+  { name: 'Events', path: '/events' },
+  { name: 'Clubs', path: '/clubs' },
+  { name: 'Notes', path: '/notes' },
+  // UPDATED
+  { name: 'Opportunities', path: '/opportunities' },
+  { name: 'Leaderboard', path: '/leaderboard' },
+];
 </script>
 
 <style scoped>
-/* Custom styles for the navigation links for a clean, modern look */
+/* UPDATED: Nav link colors for light background */
 .nav-link {
-  @apply text-sm font-semibold uppercase tracking-wider text-gray-700 transition-colors duration-200;
-  position: relative;
-  padding-bottom: 4px;
+  @apply text-gray-500 font-semibold tracking-wider uppercase text-sm
+         hover:text-gray-900 transition-colors duration-300 relative;
 }
-
-.nav-link:hover {
-  @apply text-black;
-}
-
-/* Underline effect on hover */
 .nav-link::after {
   content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: black;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease-out;
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-purple-accent
+         transition-all duration-300;
+  transform: translateY(4px);
 }
-
-.nav-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-/* Style for the active page link */
-.router-link-exact-active {
-  @apply text-black;
-}
-
-.router-link-exact-active::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+.nav-link:hover::after,
+.nav-link.router-link-exact-active::after {
+  @apply w-full;
 }
 </style>

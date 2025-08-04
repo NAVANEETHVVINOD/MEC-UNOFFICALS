@@ -1,13 +1,21 @@
-<!-- File: components/Footer.vue -->
+<!-- components/Footer.vue -->
 <template>
-  <footer class="bg-black/30 border-t border-white/10 mt-12">
-    <div class="container mx-auto py-6 px-4 text-center text-gray-400 text-sm">
-      <p>© {{ new Date().getFullYear() }} College Community. All rights reserved.</p>
-      <div class="flex justify-center space-x-4 mt-2">
-        <NuxtLink to="/about" class="hover:text-white">About</NuxtLink>
-        <NuxtLink to="/contact" class="hover:text-white">Contact</NuxtLink>
-        <NuxtLink to="/privacy" class="hover:text-white">Privacy Policy</NuxtLink>
+  <footer class="bg-white border-t border-black/10">
+    <div class="container mx-auto px-4 py-6 text-center text-gray-500">
+      <div class="flex justify-center items-center space-x-6 mb-4">
+        <NuxtLink to="/about" class="footer-link">About</NuxtLink>
+        <NuxtLink to="/contact" class="footer-link">Contact</NuxtLink>
+        <NuxtLink to="/privacy" class="footer-link">Privacy Policy</NuxtLink>
       </div>
+      <p class="text-sm">
+        © {{ new Date().getFullYear() }} MEC-UNOFFICALS. All rights reserved.
+      </p>
     </div>
   </footer>
 </template>
+
+<style scoped>
+.footer-link {
+  @apply hover:text-purple-accent font-medium transition-colors duration-300;
+}
+</style>

@@ -1,7 +1,12 @@
 // nuxt.config.ts
+
 export default defineNuxtConfig({
   experimental: {
-    watcher: 'chokidar', 
+    watcher: 'chokidar',
+  },
+
+  nitro: {
+    compatibilityDate: '2024-04-03',
   },
 
   modules: [
@@ -9,13 +14,14 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@pinia/nuxt',
   ],
+
   googleFonts: {
     families: {
-      Anton: [400],
       Inter: [400, 500, 700],
-      'Patrick Hand': [400],
+      'Black Ops One': [400], // The correct stencil font
     },
     display: 'swap',
   },
+
   css: ['~/assets/css/main.css'],
 })

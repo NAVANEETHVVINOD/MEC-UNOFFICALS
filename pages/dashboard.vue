@@ -1,202 +1,121 @@
 <!-- pages/dashboard.vue -->
-<!-- New design featuring a central photo slider and corner void elements. -->
 <template>
-  <div class="bg-gray-100">
-    <!-- Main container for the hero section -->
-    <header class="relative w-full h-screen overflow-hidden font-sans">
+  <div class="min-h-screen bg-white relative overflow-hidden">
+    <!-- Notebook Grid Background -->
+    <div class="notebook-grid"></div>
+    
+    <!-- Decorative Stickers (Paths Corrected to use the 'public' folder) -->
+    <img 
+        src="assets\images\dashboard\book.webp" alt="Doodle" class="absolute top-[90px] right-[20px] w-20 h-auto opacity-80 hidden md:block z-10"/>
+     
+    <img 
+       src="assets\images\dashboard\luffy-gear-5-laughing-sticker.gif" alt="Doodle" class="absolute bottom-[50px] left-[20px] w-20 h-auto opacity-80 hidden md:block z-10"/>
+   
+    <img 
+       src="assets\images\dashboard\pc.jpg" alt="Doodle" class="absolute top-[400px] left-[3%] w-16 h-auto opacity-50 hidden lg:block transform -rotate-12 z-10"/> 
+    
+    
+    <!-- Main Content Flow -->
+    <div class="relative z-20 flex flex-col items-center space-y-24 md:space-y-32 pt-[120px] pb-20">
       
-      <!-- Fullscreen Particle System -->
-      <div class="particle-background">
-        <div v-for="i in 50" :key="`particle-${i}`" class="star" :style="getStarStyle()"></div>
-      </div>
+      <!-- Section 1: Hero -->
+      <section class="text-center animate-fade-in-up">
+        <h1 class="font-stencil text-5xl md:text-7xl uppercase text-brand-purple-title">Campus Life</h1>
+        <h2 class="font-stencil text-4xl md:text-6xl uppercase mt-2 text-brand-purple-title">Your Way!</h2>
+        <p class="mt-6 text-lg text-brand-grey-sub max-w-2xl mx-auto font-sans">
+          A centralized hub for events, notes, clubs, and all things campus.
+        </p>
+      </section>
 
-      <!-- 3 Corner Void Elements -->
-      <div class="absolute inset-0 z-0">
-        <!-- Top-left void -->
-        <div class="void" style="width: 25vw; height: 25vw; top: -5%; left: -8%;">
-          <div class="stars-bg"></div>
-        </div>
-        <!-- Top-right void -->
-        <div class="void" style="width: 20vw; height: 20vw; top: 0%; right: -5%; animation-delay: -3s;">
-          <div class="stars-bg"></div>
-        </div>
-        <!-- Bottom-right void -->
-        <div class="void" style="width: 30vw; height: 30vw; bottom: -10%; right: -10%; animation-delay: -6s;">
-          <div class="stars-bg"></div>
-        </div>
-      </div>
-      
-      <!-- Central Content Layout -->
-      <main class="relative z-20 w-full h-screen flex flex-col items-center justify-center p-4">
-        <!-- Headline Section -->
-        <div class="text-center animate-fade-in-up">
-          <h1 class="hero-heading">Unofficials</h1>
-          <h1 class="hero-heading mt-1">Campus Life</h1>
-          <h1 class="hero-heading mt-1">Your Way!</h1>
-          <p class="mt-4 text-lg font-semibold text-gray-600 max-w-md mx-auto">
-              Where Confessions, Clubs, and Chaos Collide!
-          </p>
-        </div>
-
-        <!-- Event Photo Slider -->
-        <div class="slider-container mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
-          <div class="slider-wrapper" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-            <div v-for="(slide, index) in slides" :key="index" class="slide">
-              <img :src="slide.img" :alt="slide.alt" class="slide-image"/>
-            </div>
+      <!-- Section 2: Event Highlights -->
+      <section class="w-full animate-fade-in-up" style="animation-delay: 0.2s;">
+        <div class="text-center mb-12"><h3 class="text-4xl font-stencil text-gray-800">Event Highlights</h3></div>
+        <ClientOnly>
+          <div class="flex justify-center flex-wrap gap-8 md:gap-12 px-4 max-w-7xl mx-auto">
+            <EventPolaroid v-for="event in events" :key="event.title" :event="event" />
           </div>
-          <!-- Slider Navigation -->
-          <div class="slider-dots">
-            <button v-for="(slide, index) in slides" :key="`dot-${index}`" @click="goToSlide(index)" :class="{ 'active': currentSlide === index }"></button>
-          </div>
-        </div>
-      </main>
+        </ClientOnly>
+      </section>
 
-    </header>
+      <!-- Section 3: Featured Activities -->
+      <section class="w-full animate-fade-in-up" style="animation-delay: 0.4s;">
+        <div class="text-center mb-12"><h3 class="text-4xl font-stencil text-gray-800">Featured Activities</h3></div>
+        <ClientOnly>
+          <div class="flex justify-center flex-wrap gap-8 md:gap-10 px-4 max-w-6xl mx-auto">
+            <FeaturedActivityCard v-for="activity in featuredActivities" :key="activity.title" :activity="activity" />
+          </div>
+        </ClientOnly>
+      </section>
+
+      <!-- Section 4: Opportunities & Scroller -->
+      <section class="w-full text-center animate-fade-in-up" style="animation-delay: 0.6s;">
+        <div class="mb-8"><h3 class="text-4xl font-stencil text-gray-800">Opportunities</h3></div>
+        <ClientOnly><MotivationalScroller /></ClientOnly>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-4 max-w-7xl mx-auto">
+          <OpportunityCard v-for="opp in opportunities" :key="opp.title" :opportunity="opp" />
+        </div>
+        <div class="mt-10">
+          <NuxtLink to="/opportunities" class="inline-flex items-center gap-2 px-8 py-4 bg-purple-accent text-white font-bold rounded-full hover:bg-purple-700 transition-all duration-300 shadow-lg">
+            See More Opportunities
+          </NuxtLink>
+        </div>
+      </section>
+
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useAppConfig } from '#app';
+useHead({
+  title: 'Dashboard - MEC-UNOFFICALS',
+  meta: [{ name: 'description', content: 'Your centralized hub for campus life.' }]
+})
 
-// Set the layout for this page
-definePageMeta({
-  layout: 'default'
-});
+// Corrected image paths to point to the 'public' folder
+const events = [
+  { 
+    title: 'Tech Fest 2024', 
+    image: '/images/img1.webp', 
+    date: 'Oct 26', 
+    description: 'A massive celebration of technology and innovation.' 
+  },
+  { 
+    title: 'Art & Culture Night', 
+    image: '/images/por2.webp', 
+    date: 'Nov 12', 
+    description: 'Showcasing student talent in music, dance, and arts.' 
+  },
+  { 
+    title: 'Annual Sports Meet', 
+    image: '/images/pot1.webp', 
+    date: 'Nov 28', 
+    description: 'Compete in track and field events. Go for gold!' 
+  },
+];
 
-const appConfig = useAppConfig();
-let slideInterval: ReturnType<typeof setInterval>;
+const featuredActivities = [
+  { icon: '💻', clubName: 'Dev Club', title: 'Hackathon Prep', tag: 'Live' },
+  { icon: '🎨', clubName: 'Art Circle', title: 'Live Sketching', tag: 'Upcoming' },
+  { icon: '🎮', clubName: 'Gaming Guild', title: 'Valorant Night', tag: 'Live' },
+];
 
-// --- Slider Logic ---
-const currentSlide = ref(0);
-const slides = ref([
-  { img: 'https://placehold.co/800x450/000000/FFFFFF?text=College+Fest', alt: 'College festival event' },
-  { img: 'https://placehold.co/800x450/000000/FFFFFF?text=Hackathon', alt: 'Students at a hackathon' },
-  { img: 'https://placehold.co/800x450/000000/FFFFFF?text=Sports+Day', alt: 'College sports day' },
-  { img: 'https://placehold.co/800x450/000000/FFFFFF?text=Club+Activity', alt: 'Student club activity' },
-  { img: 'https://placehold.co/800x450/000000/FFFFFF?text=Graduation', alt: 'Graduation ceremony' },
-]);
-
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % slides.value.length;
-};
-
-const goToSlide = (index: number) => {
-  currentSlide.value = index;
-};
-
-// --- Particle System Logic ---
-const getStarStyle = () => {
-  const size = Math.random() * 1.5 + 0.5; // Star size
-  const duration = Math.random() * 3 + 4; // Animation duration
-  return {
-    width: `${size}px`,
-    height: `${size}px`,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    animationDuration: `${duration}s`,
-    animationDelay: `${Math.random() * 3}s`,
-  };
-};
-
-onMounted(() => {
-  // Make the navbar transparent when this page is active
-  appConfig.navbar.isTransparent = true;
-  // Start auto-sliding
-  slideInterval = setInterval(nextSlide, 4000);
-});
-
-onUnmounted(() => {
-  // Reset the navbar and clear interval when leaving this page
-  appConfig.navbar.isTransparent = false;
-  clearInterval(slideInterval);
-});
+const opportunities = [
+  { title: 'Frontend Intern', company: 'Vercel', type: 'Remote' },
+  { title: 'Campus Ambassador', company: 'Google', type: 'On-Campus' },
+  { title: 'Event Volunteer', company: 'NASA Space Apps', type: 'Volunteer' },
+  { title: 'Data Science Intern', company: 'Microsoft', type: 'Remote' },
+];
 </script>
 
 <style scoped>
-/* Fullscreen Particle System */
-.particle-background {
-  @apply absolute inset-0 z-0 overflow-hidden;
-}
-.star {
-  @apply absolute bg-gray-400 rounded-full;
-  animation-name: twinkle;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.1; transform: scale(0.7); }
-  50% { opacity: 0.7; transform: scale(1); }
-}
-
-/* Black Void (Blob) Styling */
-.void {
-    @apply absolute bg-black rounded-full overflow-hidden;
-    background: radial-gradient(circle at center, #000 70%, transparent 100%);
-    animation: float-blob 20s ease-in-out infinite;
-    box-shadow: 0 0 25px 8px rgba(0,0,0,0.25);
-    border-radius: 45% 55% 60% 40% / 65% 50% 50% 35%;
-}
-
-.stars-bg {
-    @apply absolute inset-0 w-full h-full opacity-60;
-    background-image: 
-        radial-gradient(white 0.5px, transparent 0.5px);
-    background-size: 150px 150px;
-    background-position: 0 0;
-    animation: drift 120s linear infinite;
-}
-
-@keyframes drift {
-    from { transform: translateY(0px) rotate(0deg); }
-    to { transform: translateY(-150px) rotate(15deg); }
-}
-
-@keyframes float-blob {
-    0%, 100% { transform: scale(1) translateY(0px) rotate(0deg); border-radius: 45% 55% 60% 40% / 65% 50% 50% 35%;}
-    50% { transform: scale(1.03) translateY(-15px) rotate(4deg); border-radius: 65% 35% 45% 55% / 55% 60% 40% 45%;}
-}
-
-/* Hero Heading Typography */
-.hero-heading {
-    @apply font-display uppercase text-gray-800 tracking-wider;
-    font-size: clamp(2.5rem, 10vw, 6rem);
-    line-height: 1;
-}
-
-/* Photo Slider Styling */
-.slider-container {
-  @apply relative w-full max-w-4xl mx-auto rounded-lg shadow-2xl overflow-hidden;
-  aspect-ratio: 16 / 9;
-}
-.slider-wrapper {
-  @apply flex h-full transition-transform duration-700 ease-in-out;
-}
-.slide {
-  @apply w-full h-full flex-shrink-0;
-}
-.slide-image {
-  @apply w-full h-full object-cover;
-  filter: grayscale(100%);
-}
-.slider-dots {
-  @apply absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2;
-}
-.slider-dots button {
-  @apply w-3 h-3 bg-white/50 rounded-full transition-all duration-300;
-}
-.slider-dots button.active {
-  @apply bg-white w-6;
-}
-
-/* Entrance Animations */
-@keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in-up {
-    animation: fade-in-up 1s ease-out forwards;
+.notebook-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(200, 200, 200, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 200, 200, 0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: 0;
+  pointer-events: none;
 }
 </style>
