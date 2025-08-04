@@ -6,7 +6,6 @@
   "description": "MEC Unofficials - Nuxt App",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node patch-oxc-parser.js || true && nuxt prepare",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -20,10 +19,10 @@
     "@pinia/nuxt": "^0.11.1",
     "gsap": "^3.13.0",
     "nuxt": "^3.17.6",
+    "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.4.1",
     "vue": "^3.5.17",
-    "vue-router": "^4.5.1",
-    "@oxc-parser/wasm": "^0.29.0"
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "^3.2.0"

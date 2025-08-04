@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'landing', // Use the landing layout which has the notebook background
+  layout: 'landing', // Use the landing layout
 });
 </script>
 

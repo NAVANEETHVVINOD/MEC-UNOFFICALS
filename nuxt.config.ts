@@ -1,5 +1,9 @@
 // nuxt.config.ts
 export default defineNuxtConfig({
+  experimental: {
+    watcher: 'chokidar', 
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/google-fonts',
@@ -7,9 +11,9 @@ export default defineNuxtConfig({
   ],
   googleFonts: {
     families: {
-      Anton: [400],             // For the 3D hero text
-      Inter: [400, 500, 700],   // For clean body text
-      'Patrick Hand': [400],    // For handwritten/doodle headers
+      Anton: [400],
+      Inter: [400, 500, 700],
+      'Patrick Hand': [400],
     },
     display: 'swap',
   },
