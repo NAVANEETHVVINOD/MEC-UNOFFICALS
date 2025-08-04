@@ -12,6 +12,8 @@ export default <Partial<Config>>{
         handdrawn: ['"Patrick Hand"', 'cursive'],
       },
       colors: {
+        // ADD THIS LINE
+        'purple-accent': '#9333EA', // You can change this hex code if you want a different purple
         'neon-purple': '#BF регулярноBF', // A vibrant purple for highlights
         violet: {
           DEFAULT: '#8b5cf6',
