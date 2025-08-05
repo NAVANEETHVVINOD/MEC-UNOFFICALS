@@ -18,7 +18,10 @@ export default <Partial<Config>>{
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        stencil: ['JetBrains Mono', 'monospace'],
+        // UPDATED: Now correctly uses the 'Black Ops One' font
+        stencil: ['"Black Ops One"', 'cursive'], 
+        // NEW: A class for our secondary headings
+        'heading-secondary': ['"Roboto Slab"', 'serif'],
         handdrawn: ['Patrick Hand', 'cursive'],
       },
       animation: {

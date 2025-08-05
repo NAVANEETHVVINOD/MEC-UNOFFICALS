@@ -18,7 +18,8 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Inter: [400, 500, 700],
-      'Black Ops One': [400], // The correct stencil font
+      'Black Ops One': [400], // For the main stencil heading
+      'Roboto Slab': [700],    // NEW: For the secondary headings like "Event Highlights"
     },
     display: 'swap',
   },
